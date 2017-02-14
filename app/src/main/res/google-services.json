@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "659709691363",
+    "firebase_url": "https://patternchat.firebaseio.com",
+    "project_id": "patternchat",
+    "storage_bucket": "patternchat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659709691363:android:a6729cddace1d449",
+        "android_client_info": {
+          "package_name": "gea.com.patternchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "659709691363-jt5jfkuvmam3a9pn2iqo56jiijb68hou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCabFLbO6XythmJpJBR1qtx_osU9U-KCUE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
