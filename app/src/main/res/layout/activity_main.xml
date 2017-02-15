@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:orientation="vertical"
+              tools:context="gea.com.patternchat.MainActivity">
 
 
     <ListView
@@ -10,26 +13,27 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_weight="3"/>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-        android:layout_weight="1">
+                    android:layout_weight="1">
 
         <EditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
-            android:shadowColor="@color/colorAccent"
-            android:layout_height="100dp"/>
+            android:layout_height="100dp"
+            android:shadowColor="@color/colorAccent"/>
 
         <Button
-            android:id="@+id/button"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:layout_weight="1"
-            android:text="SEND"
             android:layout_alignBaseline="@id/editText"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_weight="1"
+            android:onClick="onSendButtonClicked"
+            android:text="SEND"/>
     </RelativeLayout>
 
 </LinearLayout>
