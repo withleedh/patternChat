@@ -1,4 +1,4 @@
-package gea.com.patternchat;
+package gea.com.patternchat.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+
+import gea.com.patternchat.R;
 import gea.com.patternchat.model.ChatData;
 
 public class MainActivity extends AppCompatActivity {
