@@ -1,118 +1,92 @@
 package gea.com.patternchat.view;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 import gea.com.patternchat.R;
+import gea.com.patternchat.databinding.ActivityMainBinding;
 import gea.com.patternchat.model.ChatData;
+import gea.com.patternchat.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView listView;
-    EditText editText;
-    Button sendButton;
-    ArrayAdapter adapter = null;
 
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+//    ArrayAdapter adapter = null;
+
+    MainViewModel mainViewModel = new MainViewModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        listView = (ListView)findViewById(R.id.listView);
-        editText = (EditText)findViewById(R.id.editText);
-        sendButton = (Button)findViewById(R.id.button);
+        activityMainBinding.setViewModel(mainViewModel);
 
-        final String userName = "USER" + new Random().nextInt(10000);  // 랜덤한 유저 이름 설정 ex) user1234
-
-
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
-        listView.setAdapter(adapter);
-
-        sendButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                String currentTime = getCurrentTime();
-
-                    ChatData chatData = new ChatData(userName, currentTime, editText.getText().toString());
-                    databaseReference.child("message").push().setValue(chatData);
-                    editText.setText("");
-            }
-        });
+        mainViewModel.onCreate();
+    }
 
 
-        databaseReference.child("message").addChildEventListener(new ChildEventListener() {  // message는 child의 이벤트를 수신합니다.
+//        final String userName = "USER" + new Random().nextInt(10000);  // 랜덤한 유저 이름 설정 ex) user1234
 
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String string) {
 
-                ChatData chatData = getChatFromServer(dataSnapshot);
-                reflectToListViewAdapter(chatData);
+//        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
+//        listView.setAdapter(adapter);
 
-            }
+//        sendButton.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//
+//                String currentTime = getCurrentTime();
+//
+//                    ChatData chatData = new ChatData(userName, currentTime, editText.getText().toString());
+//                    databaseReference.child("message").push().setValue(chatData);
+//                    editText.setText("");
+//            }
+//        });
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String string) {
+    @Override
+    protected void onPause() {
 
-                ChatData chatData = getChatFromServer(dataSnapshot);
-                reflectToListViewAdapter(chatData);
-            }
+        super.onPause();
+        mainViewModel.onPause();
+    }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+    @Override
+    protected void onResume() {
 
-                ChatData chatData = getChatFromServer(dataSnapshot);
-                reflectToListViewAdapter(chatData);
-            }
+        super.onResume();
+        mainViewModel.onResume();
+    }
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String string) {
+    @Override
+    protected void onDestroy() {
 
-                // When child is moved
-                // Do nothing.
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // When pushing a data is failed.
-                Log.d("CHAT", "Failed to post data to server");
-            }
-        });
+        super.onDestroy();
+        mainViewModel.onDestroy();
     }
 
     /**
      * Reflect changed value to listView
+     *
      * @param chatData Chat data loaded from FireBase.
      */
     private void reflectToListViewAdapter(ChatData chatData) {
 
-        adapter.add(chatData.getUserName() + "( " + chatData.getCreationTime() + " )" + ": " + chatData
-                .getMessage());  //
+//        adapter.add(chatData.getUserName() + "( " + chatData.getCreationTime() + " )" + ": " + chatData
+//                .getMessage());  //
     }
 
     /**
      * Get dataBundle from fireBase
+     *
      * @param dataSnapshot
      * @return
      */
