@@ -18,14 +18,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+
 import gea.com.patternchat.model.ChatData;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView listView;
-    EditText editText;
-    Button sendButton;
-    ArrayAdapter adapter = null;
+
+    private String userName;
+
+    private ListView listView;
+    private EditText editText;
+    private Button sendButton;
+    private ArrayAdapter adapter = null;
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -40,11 +44,37 @@ public class MainActivity extends AppCompatActivity {
         editText = (EditText)findViewById(R.id.editText);
         sendButton = (Button)findViewById(R.id.button);
 
-        final String userName = "USER" + new Random().nextInt(10000);  // 랜덤한 유저 이름 설정 ex) user1234
-
+        // set default userName by random value
+        userName = "USER" + new Random().nextInt(10000);
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
         listView.setAdapter(adapter);
+
+
+        setChildEventListener();
+
+        setSendButtonOnClickEvent();
+
+    }
+
+    @Override
+    protected void onResume(){
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause(){
+
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+    }
+
+    void setSendButtonOnClickEvent() {
 
         sendButton.setOnClickListener(new View.OnClickListener() {
 
@@ -53,12 +83,14 @@ public class MainActivity extends AppCompatActivity {
 
                 String currentTime = getCurrentTime();
 
-                    ChatData chatData = new ChatData(userName, currentTime, editText.getText().toString());
-                    databaseReference.child("message").push().setValue(chatData);
-                    editText.setText("");
+                ChatData chatData = new ChatData(userName, currentTime, editText.getText().toString());
+                databaseReference.child("message").push().setValue(chatData);
+                editText.setText("");
             }
         });
+    }
 
+    void setChildEventListener() {
 
         databaseReference.child("message").addChildEventListener(new ChildEventListener() {  // message는 child의 이벤트를 수신합니다.
 
@@ -101,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Reflect changed value to listView
+     *
      * @param chatData Chat data loaded from FireBase.
      */
     private void reflectToListViewAdapter(ChatData chatData) {
@@ -111,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Get dataBundle from fireBase
+     *
      * @param dataSnapshot
      * @return
      */
