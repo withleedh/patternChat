@@ -2,15 +2,11 @@ package gea.com.patternchat;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
 
 import gea.com.patternchat.model.ChatData;
 import gea.com.patternchat.presenter.MainPresenter;
@@ -22,14 +18,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     private ListView listView;
     private EditText editText;
-    private Button sendButton;
     private ArrayAdapter adapter = null;
 
     MainPresenter presenter = new MainPresenter(this);
 
     @Override
     public void initializeInputConsole() {
-
+        editText.setText("");
     }
 
     @Override
@@ -44,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d(TAG, "MainActivity, onCreate()");
 
         listView = (ListView)findViewById(R.id.listView);
         editText = (EditText)findViewById(R.id.editText);
@@ -85,11 +82,5 @@ public class MainActivity extends AppCompatActivity implements MainView {
         adapter.add(chatData.getUserName() + "( " + chatData.getCreationTime() + " )" + ": " + chatData
                 .getMessage());  //
 
-    }
-
-    @Override
-    public void clearListView() {
-
-        adapter.clear();
     }
 }

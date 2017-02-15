@@ -29,6 +29,8 @@ public class MainPresenter implements Presenter {
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
+    private String userName = "";
+
     public MainPresenter(MainView mainView) {
 
         this.mainView = mainView;
@@ -36,6 +38,8 @@ public class MainPresenter implements Presenter {
 
     @Override
     public void onCreate() {
+
+        userName = "USER" + new Random().nextInt(10000);
 
         addDataBaseListener();
 
@@ -60,19 +64,11 @@ public class MainPresenter implements Presenter {
 
     public void onSendButtonClicked(String editTextString) {
 
-        final String userName = "USER" + new Random().nextInt(10000);
+        String currentTime = getCurrentTime();
 
-        if("remove".equalsIgnoreCase(editTextString)) {
-            databaseReference.removeValue();
-        }
-        else {
-            String currentTime = getCurrentTime();
-
-            ChatData chatData = new ChatData(userName, currentTime, editTextString);
-            databaseReference.child("message").push().setValue(chatData);
-//            mainView.editText.setText("");
-            mainView.initializeInputConsole();
-        }
+        ChatData chatData = new ChatData(userName, currentTime, editTextString);
+        databaseReference.child("message").push().setValue(chatData);
+        mainView.initializeInputConsole();
     }
 
     public void addDataBaseListener() {
@@ -90,6 +86,8 @@ public class MainPresenter implements Presenter {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String string) {
 
+                ChatData chatData = getChatFromServer(dataSnapshot);
+                mainView.updateListView(chatData);
             }
 
             @Override
@@ -101,7 +99,6 @@ public class MainPresenter implements Presenter {
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String string) {
-
                 // When child is moved
                 // Do nothing.
             }
@@ -116,6 +113,7 @@ public class MainPresenter implements Presenter {
 
     /**
      * Get dataBundle from fireBase
+     *
      * @param dataSnapshot
      * @return
      */
@@ -138,4 +136,6 @@ public class MainPresenter implements Presenter {
         String currentTime = simpleDateFormat.format(new Date(currentTimeMillis));
         return currentTime;
     }
+
+
 }

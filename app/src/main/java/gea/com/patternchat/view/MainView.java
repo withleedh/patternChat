@@ -13,6 +13,4 @@ public interface MainView {
     void initializeInputConsole();
 
     void setListAdapter();
-
-    void clearListView();
 }
