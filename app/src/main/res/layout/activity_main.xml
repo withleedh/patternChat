@@ -16,11 +16,12 @@
         android:orientation="vertical">
 
 
-        <ListView
+        <TextView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_weight="3"/>
+            android:layout_weight="3"
+            android:text="@{viewModel.chatDataObservableField}"/>
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"

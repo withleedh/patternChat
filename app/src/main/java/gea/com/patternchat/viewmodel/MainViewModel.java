@@ -7,6 +7,7 @@
  */
 package gea.com.patternchat.viewmodel;
 
+import android.databinding.ObservableField;
 import android.util.Log;
 import android.view.View;
 
@@ -22,6 +23,9 @@ public class MainViewModel implements ViewModel {
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+
+
+    public ObservableField<String> chatDataObservableField = new ObservableField<>();
 
     public MainViewModel() {
 
@@ -46,10 +50,11 @@ public class MainViewModel implements ViewModel {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String string) {
-//                dataSnapshot.getValue().toString();
+
                 ChatData chatData = dataSnapshot.getValue(ChatData.class);
                 Log.d("MainViewModel", chatData.getUserName() +" : " + chatData.getMessage() );
 
+                chatDataObservableField.set(chatData.getMessage());
 
             }
 
