@@ -18,8 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
-
-import gea.com.patternchat.vo.ChatData;
+import gea.com.patternchat.model.ChatData;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,14 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
                 String currentTime = getCurrentTime();
 
-                if("remove".equalsIgnoreCase(editText.getText().toString())) {
-                    databaseReference.removeValue();
-                }
-                else {
                     ChatData chatData = new ChatData(userName, currentTime, editText.getText().toString());
                     databaseReference.child("message").push().setValue(chatData);
                     editText.setText("");
-                }
             }
         });
 
@@ -79,12 +73,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String string) {
 
+                ChatData chatData = getChatFromServer(dataSnapshot);
+                reflectToListViewAdapter(chatData);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                adapter.clear();
 
                 ChatData chatData = getChatFromServer(dataSnapshot);
                 reflectToListViewAdapter(chatData);
