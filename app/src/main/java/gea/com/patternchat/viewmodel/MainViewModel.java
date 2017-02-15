@@ -8,12 +8,15 @@
 package gea.com.patternchat.viewmodel;
 
 import android.util.Log;
+import android.view.View;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import gea.com.patternchat.model.ChatData;
 
 public class MainViewModel implements ViewModel {
 
@@ -43,6 +46,10 @@ public class MainViewModel implements ViewModel {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String string) {
+//                dataSnapshot.getValue().toString();
+                ChatData chatData = dataSnapshot.getValue(ChatData.class);
+                Log.d("MainViewModel", chatData.getUserName() +" : " + chatData.getMessage() );
+
 
             }
 
@@ -74,6 +81,13 @@ public class MainViewModel implements ViewModel {
 
     @Override
     public void onDestroy() {
+
+    }
+
+
+    public void onSendButtonClicked(View view){
+
+        Log.d("onSendButtonClicked","CLICKED");
 
     }
 }
