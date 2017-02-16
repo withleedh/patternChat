@@ -33,6 +33,7 @@ public class MainViewModel implements ViewModel {
 
     private ChatData chatData;
     public ObservableField<String> chatDataObservableField = new ObservableField<>();
+    public ObservableField<String> emptyStringObservableField = new ObservableField<>();
 
     public MainViewModel() {
 
@@ -106,6 +107,8 @@ public class MainViewModel implements ViewModel {
         Log.d("onSendButtonClicked : ","SENDING CHAT TO FIREBASE SERVER");
         databaseReference.child("message").push().setValue(chatData);
 
+        emptyStringObservableField.set("");
+        emptyStringObservableField.notifyChange();
     }
 
 
