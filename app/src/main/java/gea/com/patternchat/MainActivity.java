@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         sendButton = (Button)findViewById(R.id.button);
 
         // set default userName by random value
-        userName = "USER" + new Random().nextInt(10000);
+        userName = "MVC USER";
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
         listView.setAdapter(adapter);
