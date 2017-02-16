@@ -3,7 +3,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <import type="android.view.View" />
+
+        <import type="android.view.View"/>
+
         <variable
             name="viewModel"
             type="gea.com.patternchat.viewmodel.MainViewModel">
@@ -20,32 +22,33 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_weight="3"
-            android:textSize="18sp"
-            android:text="@{viewModel.chatDataObservableField}"/>
+            android:text="@{viewModel.chatDataObservableField}"
+            android:textSize="18sp"/>
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_weight="1">
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="1">
 
             <EditText
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:shadowColor="@color/colorAccent"
+                android:hint="@{viewModel.hintStringObservableField}"
                 android:onTextChanged="@{viewModel::onTextChanged}"
+                android:shadowColor="@color/colorAccent"
                 android:text="@{viewModel.emptyStringObservableField}"/>
 
             <Button
-                android:id="@+id/button"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_alignBaseline="@id/editText"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_weight="1"
-                android:text="SEND"
-                android:onClick="@{viewModel::onSendButtonClicked}"/>
+                android:onClick="@{viewModel::onSendButtonClicked}"
+                android:text="SEND"/>
         </RelativeLayout>
 
     </LinearLayout>

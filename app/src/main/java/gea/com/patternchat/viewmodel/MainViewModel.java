@@ -34,6 +34,7 @@ public class MainViewModel implements ViewModel {
     private ChatData chatData;
     public ObservableField<String> chatDataObservableField = new ObservableField<>();
     public ObservableField<String> emptyStringObservableField = new ObservableField<>();
+    public ObservableField<String> hintStringObservableField = new ObservableField<>();
 
     public MainViewModel() {
 
@@ -46,7 +47,9 @@ public class MainViewModel implements ViewModel {
         databaseReference = firebaseDatabase.getReference();
 
         chatData = new ChatData();
-        chatData.setUserName("USER");
+        chatData.setUserName("MVVM USER");
+
+        hintStringObservableField.set("Type your message");
     }
 
     @Override
