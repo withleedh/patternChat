@@ -8,14 +8,20 @@
 package gea.com.patternchat.viewmodel;
 
 import android.databinding.ObservableField;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import gea.com.patternchat.model.ChatData;
 
@@ -25,6 +31,7 @@ public class MainViewModel implements ViewModel {
     private DatabaseReference databaseReference;
 
 
+    private ChatData chatData;
     public ObservableField<String> chatDataObservableField = new ObservableField<>();
 
     public MainViewModel() {
@@ -36,6 +43,9 @@ public class MainViewModel implements ViewModel {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
+
+        chatData = new ChatData();
+        chatData.setUserName("USER");
     }
 
     @Override
@@ -54,7 +64,8 @@ public class MainViewModel implements ViewModel {
                 ChatData chatData = dataSnapshot.getValue(ChatData.class);
                 Log.d("MainViewModel", chatData.getUserName() +" : " + chatData.getMessage() );
 
-                chatDataObservableField.set(chatData.getMessage());
+                chatDataObservableField.set(chatData.getUserName() + "( " + chatData.getCreationTime() + " )" + ": " + chatData
+                        .getMessage());
 
             }
 
@@ -92,7 +103,31 @@ public class MainViewModel implements ViewModel {
 
     public void onSendButtonClicked(View view){
 
-        Log.d("onSendButtonClicked","CLICKED");
+        Log.d("onSendButtonClicked : ","SENDING CHAT TO FIREBASE SERVER");
+        databaseReference.child("message").push().setValue(chatData);
 
+    }
+
+
+    public void onTextChanged(CharSequence charSequence, int start, int before, int count){
+
+        Log.d("onTextChanged", charSequence.toString());
+
+        chatData.setCreationTime(getCurrentTime());
+        chatData.setMessage(charSequence.toString());
+    }
+
+    /**
+     * Get current Time base on device's TIMEZONE.
+     *
+     * @return typed simpleDataFormat (yyyy:MM:dd-hh:mm:ss)
+     */
+    String getCurrentTime() {
+
+        long currentTimeMillis = System.currentTimeMillis();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd-hh:mm:ss");
+
+        String currentTime = simpleDateFormat.format(new Date(currentTimeMillis));
+        return currentTime;
     }
 }
