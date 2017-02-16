@@ -39,7 +39,7 @@ public class MainPresenter implements Presenter {
     @Override
     public void onCreate() {
 
-        userName = "USER" + new Random().nextInt(10000);
+        userName = "MVP USER";
 
         addDataBaseListener();
 
@@ -73,7 +73,7 @@ public class MainPresenter implements Presenter {
 
     public void addDataBaseListener() {
 
-        databaseReference.child("message").addChildEventListener(new ChildEventListener() {  // message는 child의 이벤트를 수신합니다.
+        databaseReference.child("message").addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String string) {
@@ -119,7 +119,7 @@ public class MainPresenter implements Presenter {
      */
     ChatData getChatFromServer(DataSnapshot dataSnapshot) {
 
-        ChatData chatData = dataSnapshot.getValue(ChatData.class);  // chatData를 가져오고
+        ChatData chatData = dataSnapshot.getValue(ChatData.class);
         return chatData;
     }
 
