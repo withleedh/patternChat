@@ -24,8 +24,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Bind view using DataBinding library that Android supports.
+        // Binding xml's name is activity_main. BindingClass name is made with following xml's name.
         ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        // Set viewModel using DataBinding library.
+
+        // Bind layout with ViewModel(business logic)
         activityMainBinding.setViewModel(mainViewModel);
 
         mainViewModel.onCreate();
